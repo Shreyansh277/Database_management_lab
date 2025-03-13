@@ -1,0 +1,35 @@
+-- Populate the 'households' table
+\COPY households (household_id, address, income)
+FROM './household_tabel.csv' DELIMITER ',' CSV HEADER;
+
+-- Populate the 'citizens' table
+\COPY citizens (citizen_id, name, gender, dob, educational_qualification, household_id)
+FROM './citizen_tabel.csv' DELIMITER ',' CSV HEADER;
+
+-- Populate the 'land_records' table
+\COPY land_records (land_id, citizen_id, area_acres, crop_type)
+FROM './land_data.csv' DELIMITER ',' CSV HEADER;
+
+-- Populate the 'panchayat_employees' table
+\COPY panchayat_employees (employee_id, citizen_id, role)
+FROM './panchayat_employee.csv' DELIMITER ',' CSV HEADER;
+
+-- Populate the 'assets' table
+\COPY assets (asset_id, type, location, installation_date)
+FROM './asset_data.csv' DELIMITER ',' CSV HEADER;
+
+-- Populate the 'welfare_schemes' table
+\COPY welfare_schemes (scheme_id, name, description)
+FROM './scheme_data.csv' DELIMITER ',' CSV HEADER;
+
+-- Populate the 'scheme_enrollments' table
+\COPY scheme_enrollments (enrollment_id, citizen_id, scheme_id, enrollment_date)
+FROM './scheme_enrollments.csv' DELIMITER ',' CSV HEADER;
+
+-- Populate the 'vaccinations' table
+\COPY vaccinations (vaccination_id, citizen_id, vaccine_type, date_administered)
+FROM './vaccination_data.csv' DELIMITER ',' CSV HEADER;
+
+-- Populate the 'census_data' table
+\COPY census_data (household_id, citizen_id, event_type, event_date)
+FROM './census_data.csv' DELIMITER ',' CSV HEADER;

@@ -1,0 +1,72 @@
+-- Create 'citizens' table
+CREATE TABLE citizens (
+    citizen_id VARCHAR(100) PRIMARY KEY,
+    name TEXT NOT NULL,
+    gender TEXT NOT NULL,
+    dob DATE NOT NULL,
+    educational_qualification TEXT NOT NULL,
+    household_id VARCHAR(100) REFERENCES households(household_id)
+    
+);
+
+-- Create 'households' table
+CREATE TABLE households (
+    household_id VARCHAR(100) PRIMARY KEY,
+    address TEXT NOT NULL,
+    income VARCHAR(100)
+);
+
+-- Create 'land_records' table
+CREATE TABLE land_records (
+    land_id VARCHAR(100) PRIMARY KEY,
+    citizen_id VARCHAR(100) NOT NULL REFERENCES citizens(citizen_id),
+    area_acres VARCHAR(50),
+    crop_type TEXT
+);
+
+-- Create 'panchayat_employees' table
+CREATE TABLE panchayat_employees (
+    employee_id VARCHAR(100) PRIMARY KEY,
+    citizen_id VARCHAR(100) NOT NULL UNIQUE REFERENCES citizens(citizen_id),
+    role TEXT NOT NULL CHECK (role IN ('Pradhan', 'Secretary', 'Member'))
+);
+
+-- Create 'assets' table
+CREATE TABLE assets (
+    asset_id VARCHAR(100) PRIMARY KEY,
+    type TEXT NOT NULL ,
+    location TEXT NOT NULL,
+    installation_date DATE NOT NULL
+);
+
+-- Create 'welfare_schemes' table
+CREATE TABLE welfare_schemes (
+    scheme_id VARCHAR(100) PRIMARY KEY,
+    name TEXT NOT NULL,
+    description TEXT
+);
+
+-- Create 'scheme_enrollments' table
+CREATE TABLE scheme_enrollments (
+    enrollment_id VARCHAR(100) PRIMARY KEY,
+    citizen_id VARCHAR(100) NOT NULL REFERENCES citizens(citizen_id),
+    scheme_id VARCHAR(100) NOT NULL REFERENCES welfare_schemes(scheme_id),
+    enrollment_date DATE NOT NULL
+);
+
+-- Create 'vaccinations' table
+CREATE TABLE vaccinations (
+    vaccination_id VARCHAR(100) PRIMARY KEY,
+    citizen_id VARCHAR(100) NOT NULL REFERENCES citizens(citizen_id),
+    vaccine_type TEXT NOT NULL,
+    date_administered DATE NOT NULL
+);
+
+-- Create 'census_data' table
+CREATE TABLE census_data (
+    household_id VARCHAR(100) NOT NULL REFERENCES households(household_id),
+    citizen_id VARCHAR(100) NOT NULL REFERENCES citizens(citizen_id),
+    event_type TEXT NOT NULL ,
+    event_date DATE NOT NULL,
+    PRIMARY KEY (household_id, citizen_id, event_date)
+);
